@@ -35,6 +35,11 @@ export default function HomeScreen() {
     setModalVisible(false);
     loadTasks();
   };
+  const visibleTasks = tasks.filter((t) => {
+    if (t.taskType !== activeTab) return false;
+    if (t.taskType === "Routine" && t.completedToday) return false;
+    return true;
+  });
 
   useEffect(() => {
     loadTasks();
@@ -43,9 +48,11 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={tasks.filter((t) => t.taskType === activeTab)}
+        data={visibleTasks}
         keyExtractor={(i) => i._id}
-        renderItem={({ item }) => <TaskCard task={item} />}
+        renderItem={({ item }) => (
+          <TaskCard task={item} onCompleted={loadTasks} />
+        )}
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
             <AppHeader />

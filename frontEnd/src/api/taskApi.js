@@ -11,3 +11,8 @@ export const addTask = async (task) => {
   const res = await axios.post(`${API_BASE}/tasks`, task);
   return res.data;
 };
+
+export const completeTask = async (taskId) => {
+  const res = await axios.post(`${API_BASE}/tasks/${taskId}/complete`);
+  return res.data;
+};
