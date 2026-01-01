@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, FlatList, Text, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import { getTasks, addTask } from "../api/taskApi";
 import TaskCard from "../components/TaskCard";
 import TaskTabs from "../components/TaskTabs";
 import AddTaskModal from "../components/AddTaskModal";
+import AppHeader from "../components/AppHeader";
 import { styles } from "../styles/theme";
 
 export default function HomeScreen() {
@@ -17,7 +18,7 @@ export default function HomeScreen() {
     taskType: "Routine",
     date: new Date(),
     showDatePicker: false,
-    showTimePicker: false
+    showTimePicker: false,
   });
 
   const setState = (v) => setForm((p) => ({ ...p, ...v }));
@@ -25,12 +26,11 @@ export default function HomeScreen() {
   const loadTasks = async () => setTasks(await getTasks());
 
   const saveTask = async () => {
-    console.log("SAVE CLICKED");
     await addTask({
       name: form.name,
       rewardPoints: Number(form.rewardPoints),
       endingTime: form.date.toISOString(),
-      taskType: form.taskType
+      taskType: form.taskType,
     });
     setModalVisible(false);
     loadTasks();
@@ -42,14 +42,18 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Tasks</Text>
-
-      <TaskTabs activeTab={activeTab} onChange={setActiveTab} />
-
       <FlatList
-        data={tasks.filter(t => t.taskType === activeTab)}
+        data={tasks.filter((t) => t.taskType === activeTab)}
         keyExtractor={(i) => i._id}
         renderItem={({ item }) => <TaskCard task={item} />}
+        ListHeaderComponent={
+          <View style={{ backgroundColor: "#0B0507" }}>
+            <AppHeader />
+            <TaskTabs activeTab={activeTab} onChange={setActiveTab} />
+          </View>
+        }
+        stickyHeaderIndices={[0]}
+        contentContainerStyle={{ paddingBottom: 90 }}
       />
 
       <TouchableOpacity
