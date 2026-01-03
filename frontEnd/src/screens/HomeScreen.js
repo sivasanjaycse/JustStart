@@ -5,13 +5,13 @@ import TaskCard from "../components/TaskCard";
 import TaskTabs from "../components/TaskTabs";
 import AddTaskModal from "../components/AddTaskModal";
 import { styles } from "../styles/theme";
-import { useNavigation } from "@react-navigation/native";
+import { getCompletedByDate } from "../api/completedApi";
 
 export default function HomeScreen({ reloadWallet }) {
   const [tasks, setTasks] = useState([]);
   const [activeTab, setActiveTab] = useState("Routine");
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const [tdyPoints, setTdyPoints] = useState(0);
 
   const [form, setForm] = useState({
     name: "",
@@ -29,10 +29,25 @@ export default function HomeScreen({ reloadWallet }) {
       const taskData = await getTasks();
       setTasks(taskData);
       reloadWallet && reloadWallet();
+      loadTodayProgress(); // ✅ ADD THIS
     } catch (err) {
       console.log("Failed to load tasks:", err);
     }
   };
+  const loadTodayProgress = async () => {
+    try {
+      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const res = await getCompletedByDate(today);
+      setTdyPoints(res.totalPoints || 0);
+    } catch (e) {
+      console.log("Failed to load today's progress", e);
+      setTdyPoints(0);
+    }
+  };
+  useEffect(() => {
+    loadTasks();
+    loadTodayProgress();
+  }, []);
 
   const saveTask = async () => {
     await addTask({
@@ -51,15 +66,19 @@ export default function HomeScreen({ reloadWallet }) {
     return true;
   });
 
-  const todayPoints = tasks
-    .filter((t) => t.completedToday)
-    .reduce((sum, t) => sum + t.rewardPoints, 0);
+  const progress = Math.min(tdyPoints / 1000, 1);
+  const cappedPoints = Math.min(tdyPoints, 3000);
 
-  const progress = Math.min(todayPoints / 1000, 1);
+  const cycle = Math.floor(cappedPoints / 1000); // 0,1,2,3
+  const remainder = cappedPoints >= 3000 ? 1000 : cappedPoints % 1000;
 
-  useEffect(() => {
-    loadTasks();
-  }, []);
+  const fillRatio = remainder / 1000;
+  const cycleColors = [
+    "#1A1A1A", // 0 cycles → empty / graphite
+    "#C1121F", // 1st 1000 → crimson
+    "#B11226", // 2nd 1000 → inferno red (glowy)
+    "#7A1020", // 3rd 1000 → ember wine glow
+  ];
 
   return (
     <View style={styles.container}>
@@ -71,9 +90,7 @@ export default function HomeScreen({ reloadWallet }) {
         )}
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
-            <View
-              style={{ marginHorizontal: 16, marginVertical: 18 }}
-            >
+            <View style={{ marginHorizontal: 16, marginVertical: 18 }}>
               <Text
                 style={{
                   color: "#F5F5F5",
@@ -88,7 +105,7 @@ export default function HomeScreen({ reloadWallet }) {
               </Text>
 
               <Text style={{ color: "#DADADA", marginBottom: 6 }}>
-                {todayPoints} Points
+                {tdyPoints} Points
               </Text>
 
               <View
@@ -102,11 +119,21 @@ export default function HomeScreen({ reloadWallet }) {
                 <View
                   style={{
                     height: 8,
-                    width: `${progress * 100}%`,
-                    backgroundColor: "#C1121F",
                     borderRadius: 4,
+                    overflow: "hidden",
+                    backgroundColor: cycleColors[cycle], // 👈 previous cycle color
                   }}
-                />
+                >
+                  {cycle < 3 && (
+                    <View
+                      style={{
+                        height: 8,
+                        width: `${fillRatio * 100}%`,
+                        backgroundColor: cycleColors[cycle + 1], // 👈 current cycle color
+                      }}
+                    />
+                  )}
+                </View>
               </View>
             </View>
 

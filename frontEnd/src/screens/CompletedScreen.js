@@ -34,7 +34,9 @@ export default function CompletedScreen() {
   useEffect(() => {
     loadCompleted(selectedDate);
   }, [selectedDate]);
-
+  useEffect(() => {
+    loadCompleted(selectedDate);
+  }, []);
   const onDateChange = (_, date) => {
     setShowPicker(false);
     if (date) setSelectedDate(date);
