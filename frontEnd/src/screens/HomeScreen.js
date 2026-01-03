@@ -71,13 +71,7 @@ export default function HomeScreen({ reloadWallet }) {
         )}
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
-            <TouchableOpacity
-              activeOpacity={0.3}
-              onPress={() => {
-                requestAnimationFrame(() => {
-                  navigation.navigate("Completed");
-                });
-              }}
+            <View
               style={{ marginHorizontal: 16, marginVertical: 18 }}
             >
               <Text
@@ -114,7 +108,7 @@ export default function HomeScreen({ reloadWallet }) {
                   }}
                 />
               </View>
-            </TouchableOpacity>
+            </View>
 
             <TaskTabs activeTab={activeTab} onChange={setActiveTab} />
           </View>
