@@ -73,7 +73,11 @@ export default function HomeScreen({ reloadWallet }) {
           <View style={{ backgroundColor: "#0B0507" }}>
             <TouchableOpacity
               activeOpacity={0.3}
-              onPress={() => navigation.navigate("Completed")}
+              onPress={() => {
+                requestAnimationFrame(() => {
+                  navigation.navigate("Completed");
+                });
+              }}
               style={{ marginHorizontal: 16, marginVertical: 18 }}
             >
               <Text

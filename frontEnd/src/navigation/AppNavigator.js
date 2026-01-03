@@ -30,7 +30,14 @@ export default function AppNavigator() {
           {(props) => <HomeScreen {...props} reloadWallet={loadWallet} />}
         </Stack.Screen>
 
-        <Stack.Screen name="Completed" component={CompletedScreen} />
+        <Stack.Screen
+          name="Completed"
+          component={CompletedScreen}
+          options={{
+            animation: "slide_from_right", // ✅ smooth native slide
+            animationDuration: 1550,
+          }}
+        />
       </Stack.Navigator>
     </AppLayout>
   );
