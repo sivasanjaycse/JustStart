@@ -6,11 +6,13 @@ import TaskTabs from "../components/TaskTabs";
 import AddTaskModal from "../components/AddTaskModal";
 import AppHeader from "../components/AppHeader";
 import { styles } from "../styles/theme";
+import { getWallet } from "../api/walletApi";
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState([]);
   const [activeTab, setActiveTab] = useState("Routine");
   const [modalVisible, setModalVisible] = useState(false);
+  const [wallet, setWallet] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -23,7 +25,12 @@ export default function HomeScreen() {
 
   const setState = (v) => setForm((p) => ({ ...p, ...v }));
 
-  const loadTasks = async () => setTasks(await getTasks());
+  const loadTasks = async () => {
+    const [taskData, walletData] = await Promise.all([getTasks(), getWallet()]);
+
+    setTasks(taskData);
+    setWallet(walletData);
+  };
 
   const saveTask = async () => {
     await addTask({
@@ -41,6 +48,12 @@ export default function HomeScreen() {
     return true;
   });
 
+  const todayPoints = tasks
+    .filter((t) => t.completedToday)
+    .reduce((sum, t) => sum + t.rewardPoints, 0);
+
+  const progress = Math.min(todayPoints / 1000, 1);
+
   useEffect(() => {
     loadTasks();
   }, []);
@@ -55,7 +68,30 @@ export default function HomeScreen() {
         )}
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
-            <AppHeader />
+            <AppHeader permanentPoints={wallet?.permanentPoints ?? 0} />
+            <View style={{ marginHorizontal: 16, marginVertical: 8 }}>
+              <Text style={{ color: "#DADADA", marginBottom: 6 }}>
+                {todayPoints} Points
+              </Text>
+
+              <View
+                style={{
+                  height: 8,
+                  backgroundColor: "#1A1A1A",
+                  borderRadius: 4,
+                }}
+              >
+                <View
+                  style={{
+                    height: 8,
+                    width: `${progress * 100}%`,
+                    backgroundColor: "#C1121F",
+                    borderRadius: 4,
+                  }}
+                />
+              </View>
+            </View>
+
             <TaskTabs activeTab={activeTab} onChange={setActiveTab} />
           </View>
         }

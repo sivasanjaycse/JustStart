@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
 const Completed = require("../models/Completed");
+const Wallet = require("../models/Wallet");
 
 // ➕ Add Task (unchanged)
 exports.createTask = async (req, res) => {
@@ -77,6 +78,14 @@ exports.completeTask = async (req, res) => {
     if (task.taskType !== "Routine") {
       await Task.findByIdAndDelete(id);
     }
+
+    let wallet = await Wallet.findOne();
+    if (!wallet) {
+      wallet = new Wallet();
+    }
+
+    wallet.temporaryPoints += task.rewardPoints;
+    await wallet.save();
 
     res.json({ message: "Task completed successfully" });
   } catch (err) {
