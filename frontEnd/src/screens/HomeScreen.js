@@ -4,16 +4,13 @@ import { getTasks, addTask } from "../api/taskApi";
 import TaskCard from "../components/TaskCard";
 import TaskTabs from "../components/TaskTabs";
 import AddTaskModal from "../components/AddTaskModal";
-import AppHeader from "../components/AppHeader";
 import { styles } from "../styles/theme";
-import { getWallet } from "../api/walletApi";
 import { useNavigation } from "@react-navigation/native";
 
-export default function HomeScreen() {
+export default function HomeScreen({ reloadWallet }) {
   const [tasks, setTasks] = useState([]);
   const [activeTab, setActiveTab] = useState("Routine");
   const [modalVisible, setModalVisible] = useState(false);
-  const [wallet, setWallet] = useState(null);
   const navigation = useNavigation();
 
   const [form, setForm] = useState({
@@ -28,10 +25,13 @@ export default function HomeScreen() {
   const setState = (v) => setForm((p) => ({ ...p, ...v }));
 
   const loadTasks = async () => {
-    const [taskData, walletData] = await Promise.all([getTasks(), getWallet()]);
-
-    setTasks(taskData);
-    setWallet(walletData);
+    try {
+      const taskData = await getTasks();
+      setTasks(taskData);
+      reloadWallet && reloadWallet();
+    } catch (err) {
+      console.log("Failed to load tasks:", err);
+    }
   };
 
   const saveTask = async () => {
@@ -43,6 +43,7 @@ export default function HomeScreen() {
     });
     setModalVisible(false);
     loadTasks();
+    reloadWallet();
   };
   const visibleTasks = tasks.filter((t) => {
     if (t.taskType !== activeTab) return false;
@@ -70,7 +71,6 @@ export default function HomeScreen() {
         )}
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
-            <AppHeader permanentPoints={wallet?.permanentPoints ?? 0} />
             <TouchableOpacity
               activeOpacity={0.3}
               onPress={() => navigation.navigate("Completed")}
