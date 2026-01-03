@@ -1,0 +1,74 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+import HomeScreen from "../screens/HomeScreen";
+import CompletedScreen from "../screens/CompletedScreen";
+
+function RewardsScreen() {
+  return (
+    <View style={{ flex: 1, backgroundColor: "#0B0507" }}>
+      <Text style={{ color: "#F5F5F5", textAlign: "center", marginTop: 40 }}>
+        Develop Panna thaan Varum
+      </Text>
+    </View>
+  );
+}
+
+const Tab = createMaterialTopTabNavigator();
+
+export default function BottomTabs({ reloadWallet }) {
+  return (
+    <Tab.Navigator
+      tabBarPosition="bottom"
+      screenOptions={{
+        swipeEnabled: true, // 🔥 enables sliding
+        animationEnabled: true,
+        tabBarStyle: {
+          backgroundColor: "#141012",
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: "#C1121F",
+          height: 3,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
+        },
+        tabBarActiveTintColor: "#C1121F",
+        tabBarInactiveTintColor: "#A8A8A8",
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" size={20} color={color} />
+          ),
+        }}
+      >
+        {(props) => <HomeScreen {...props} reloadWallet={reloadWallet} />}
+      </Tab.Screen>
+
+      <Tab.Screen
+        name="Completed"
+        component={CompletedScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="checkmark-done" size={20} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Rewards"
+        component={RewardsScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="gift" size={20} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}

@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/HomeScreen";
-import CompletedScreen from "../screens/CompletedScreen";
 import AppLayout from "../screens/AppLayout";
+import BottomTabs from "./BottomTabs";
 import { getWallet } from "../api/walletApi";
-
-const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   const [wallet, setWallet] = useState(null);
@@ -25,20 +21,7 @@ export default function AppNavigator() {
 
   return (
     <AppLayout permanentPoints={wallet?.permanentPoints ?? 0}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home">
-          {(props) => <HomeScreen {...props} reloadWallet={loadWallet} />}
-        </Stack.Screen>
-
-        <Stack.Screen
-          name="Completed"
-          component={CompletedScreen}
-          options={{
-            animation: "slide_from_right", // ✅ smooth native slide
-            animationDuration: 1550,
-          }}
-        />
-      </Stack.Navigator>
+      <BottomTabs reloadWallet={loadWallet} />
     </AppLayout>
   );
 }

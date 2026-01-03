@@ -31,7 +31,7 @@ export default function AppHeader({ permanentPoints }) {
       end={{ x: 1, y: 1 }}
       style={{
         paddingTop: 14,
-        paddingBottom: 20,
+        paddingBottom: 15,
       }}
     >
       <Animated.View
@@ -63,8 +63,6 @@ export default function AppHeader({ permanentPoints }) {
             gap: 14,
           }}
         >
-          <Ionicons name="trophy" size={22} color="#C1121F" />
-
           {/* 💰 WALLET */}
           <TouchableOpacity
             activeOpacity={0.7}
