@@ -36,10 +36,12 @@ export default function TaskCard({ task, onCompleted }) {
       >
         <Text style={styles.points}>🎯 {task.rewardPoints} Points</Text>
 
-        <TouchableOpacity onPress={handlePress}>
-          <Text style={{ color: "#ff4d6d", fontWeight: "600" }}>
-            {confirm ? "Confirm" : "Done"}
-          </Text>
+        <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+          <View style={styles.doneButton}>
+            <Text style={styles.doneButtonText}>
+              {confirm ? "Confirm" : "Done"}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>

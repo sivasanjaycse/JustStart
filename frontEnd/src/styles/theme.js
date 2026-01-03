@@ -128,4 +128,19 @@ export const styles = StyleSheet.create({
   closeText: {
     color: "#A8A8A8",
   },
+  doneButton: {
+    backgroundColor: "#C1121F", // Primary Button
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 80,
+  },
+
+  doneButtonText: {
+    color: "#F5F5F5", // Primary Text White
+    fontWeight: "600",
+    fontSize: 14,
+  },
 });
