@@ -1,12 +1,15 @@
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import HomeScreen from "./src/screens/HomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#0B0507" }}>
-        <HomeScreen />
-      </SafeAreaView>
+      <NavigationContainer>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#0B0507" }}>
+          <AppNavigator />
+        </SafeAreaView>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }

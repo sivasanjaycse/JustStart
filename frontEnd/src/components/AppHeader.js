@@ -2,10 +2,12 @@ import { View, Text, Animated, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AppHeader({ permanentPoints }) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(-20)).current;
+  const navigation = useNavigation();
 
   useEffect(() => {
     Animated.parallel([
@@ -62,7 +64,6 @@ export default function AppHeader({ permanentPoints }) {
           }}
         >
           <Ionicons name="trophy" size={22} color="#C1121F" />
-          <Ionicons name="checkmark-circle" size={22} color="#C1121F" />
 
           {/* 💰 WALLET */}
           <TouchableOpacity

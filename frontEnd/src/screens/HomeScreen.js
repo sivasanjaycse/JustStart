@@ -7,12 +7,14 @@ import AddTaskModal from "../components/AddTaskModal";
 import AppHeader from "../components/AppHeader";
 import { styles } from "../styles/theme";
 import { getWallet } from "../api/walletApi";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState([]);
   const [activeTab, setActiveTab] = useState("Routine");
   const [modalVisible, setModalVisible] = useState(false);
   const [wallet, setWallet] = useState(null);
+  const navigation = useNavigation();
 
   const [form, setForm] = useState({
     name: "",
@@ -69,14 +71,36 @@ export default function HomeScreen() {
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
             <AppHeader permanentPoints={wallet?.permanentPoints ?? 0} />
-            <View style={{ marginHorizontal: 16, marginVertical: 18 }}>
-              <Text style={styles.progressHeading}>Today’s Progress</Text>
+            <TouchableOpacity
+              activeOpacity={0.3}
+              onPress={() => navigation.navigate("Completed")}
+              style={{ marginHorizontal: 16, marginVertical: 18 }}
+            >
+              <Text
+                style={{
+                  color: "#F5F5F5",
+                  textAlign: "center",
+                  fontSize: 16,
+                  fontWeight: "600",
+                  marginBottom: 10,
+                  letterSpacing: 0.5,
+                }}
+              >
+                Today’s Progress
+              </Text>
 
               <Text style={{ color: "#DADADA", marginBottom: 6 }}>
                 {todayPoints} Points
               </Text>
 
-              <View style={styles.ProgressBar}>
+              <View
+                style={{
+                  height: 8,
+                  backgroundColor: "#1A1A1A",
+                  borderRadius: 4,
+                  overflow: "hidden",
+                }}
+              >
                 <View
                   style={{
                     height: 8,
@@ -86,7 +110,7 @@ export default function HomeScreen() {
                   }}
                 />
               </View>
-            </View>
+            </TouchableOpacity>
 
             <TaskTabs activeTab={activeTab} onChange={setActiveTab} />
           </View>
