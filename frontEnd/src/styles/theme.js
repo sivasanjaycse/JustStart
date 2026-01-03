@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ProgressBarAndroidBase, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -142,5 +142,20 @@ export const styles = StyleSheet.create({
     color: "#F5F5F5", // Primary Text White
     fontWeight: "600",
     fontSize: 14,
+  },
+
+  progressHeading: {
+    color: "#F5F5F5",
+    textAlign: "center",
+    fontSize: 19,
+    fontWeight: "600",
+    marginBottom: 10,
+    letterSpacing: 0.5,
+  },
+
+  ProgressBar: {
+    height: 8,
+    backgroundColor: "#1A1A1A",
+    borderRadius: 4,
   },
 });

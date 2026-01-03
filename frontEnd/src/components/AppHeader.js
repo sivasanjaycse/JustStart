@@ -28,9 +28,8 @@ export default function AppHeader({ permanentPoints }) {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{
-        paddingHorizontal: 20,
-        paddingTop: 4,
-        paddingBottom: 10,
+        paddingTop: 14,
+        paddingBottom: 20,
       }}
     >
       <Animated.View

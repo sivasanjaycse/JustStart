@@ -69,18 +69,14 @@ export default function HomeScreen() {
         ListHeaderComponent={
           <View style={{ backgroundColor: "#0B0507" }}>
             <AppHeader permanentPoints={wallet?.permanentPoints ?? 0} />
-            <View style={{ marginHorizontal: 16, marginVertical: 8 }}>
+            <View style={{ marginHorizontal: 16, marginVertical: 18 }}>
+              <Text style={styles.progressHeading}>Today’s Progress</Text>
+
               <Text style={{ color: "#DADADA", marginBottom: 6 }}>
                 {todayPoints} Points
               </Text>
 
-              <View
-                style={{
-                  height: 8,
-                  backgroundColor: "#1A1A1A",
-                  borderRadius: 4,
-                }}
-              >
+              <View style={styles.ProgressBar}>
                 <View
                   style={{
                     height: 8,
