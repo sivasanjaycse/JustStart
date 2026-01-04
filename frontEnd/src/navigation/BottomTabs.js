@@ -4,16 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
 import CompletedScreen from "../screens/CompletedScreen";
-
-function RewardsScreen() {
-  return (
-    <View style={{ flex: 1, backgroundColor: "#0B0507" }}>
-      <Text style={{ color: "#F5F5F5", textAlign: "center", marginTop: 40 }}>
-        Develop Panna thaan Varum
-      </Text>
-    </View>
-  );
-}
+import RewardsScreen from "../screens/RewardsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
