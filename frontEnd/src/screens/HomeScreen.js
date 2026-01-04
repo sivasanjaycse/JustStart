@@ -144,11 +144,10 @@ export default function HomeScreen({ reloadWallet }) {
         contentContainerStyle={{ paddingBottom: 90 }}
       />
 
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.addText}>＋ Add Task</Text>
+      <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)}>
+        <View>
+          <Text style={styles.addText}>+</Text>
+        </View>
       </TouchableOpacity>
 
       <AddTaskModal

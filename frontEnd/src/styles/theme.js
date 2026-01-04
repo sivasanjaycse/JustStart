@@ -158,4 +158,15 @@ export const styles = StyleSheet.create({
     backgroundColor: "#1A1A1A",
     borderRadius: 4,
   },
+    fab: {
+    position: "absolute",
+    right: 20,
+    bottom: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#C1121F",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

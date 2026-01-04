@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      "mongodb+srv://sivasanjaidisco_db_user:7871610716@cluster0.phzlk1k.mongodb.net/?appName=Cluster0"
+      process.env.MONGO_URI
     );
     console.log("MongoDB Connected");
   } catch (err) {
@@ -13,3 +13,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
