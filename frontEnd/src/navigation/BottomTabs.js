@@ -1,5 +1,4 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
@@ -13,7 +12,7 @@ export default function BottomTabs({ reloadWallet }) {
     <Tab.Navigator
       tabBarPosition="bottom"
       screenOptions={{
-        swipeEnabled: true, // 🔥 enables sliding
+        swipeEnabled: true,
         animationEnabled: true,
         tabBarStyle: {
           backgroundColor: "#141012",

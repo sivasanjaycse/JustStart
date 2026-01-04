@@ -66,9 +66,7 @@ export default function AppHeader({ permanentPoints }) {
           {/* 💰 WALLET */}
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => {
-              // wallet screen later
-            }}
+            onPress={() => navigation.navigate("Transactions")}
             style={{
               flexDirection: "row",
               alignItems: "center",

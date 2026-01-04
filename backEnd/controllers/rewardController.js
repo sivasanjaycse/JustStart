@@ -49,3 +49,15 @@ exports.purchaseReward = async (req, res) => {
     session.endSession();
   }
 };
+
+exports.getTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find().sort({
+      purchasedAt: -1,
+    });
+
+    res.json(transactions);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
