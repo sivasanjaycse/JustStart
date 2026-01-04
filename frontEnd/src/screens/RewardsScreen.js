@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import RewardCard from "../components/RewardCard";
 import PurchaseModal from "../components/PurchaseModal";
 import AddRewardModal from "../components/AddRewardModal";
 import { getRewards, purchaseReward, addReward } from "../api/rewardsApi";
 import { rewardStyles as styles } from "../styles/rewardStyles";
-
+import { styles as styles1 } from "../styles/theme";
 export default function RewardsScreen({ walletPoints, reloadWallet }) {
   const [rewards, setRewards] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -33,9 +33,17 @@ export default function RewardsScreen({ walletPoints, reloadWallet }) {
   };
 
   const confirmPurchase = async () => {
-    await purchaseReward(selected._id);
-    setModal(false);
-    reloadWallet();
+    try {
+      await purchaseReward(selected._id);
+
+      // 🔥 force wallet refetch AFTER backend commit
+      await reloadWallet();
+
+      setModal(false);
+      setSelected(null);
+    } catch (e) {
+      console.log("Purchase failed", e);
+    }
   };
 
   const saveReward = async (reward) => {
@@ -59,7 +67,7 @@ export default function RewardsScreen({ walletPoints, reloadWallet }) {
       {/* + FAB */}
       <TouchableOpacity style={styles.fab} onPress={() => setAddModal(true)}>
         <View>
-          <View />
+          <Text style={styles1.addText}>+</Text>
         </View>
       </TouchableOpacity>
 

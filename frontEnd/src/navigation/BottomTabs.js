@@ -53,13 +53,14 @@ export default function BottomTabs({ reloadWallet }) {
 
       <Tab.Screen
         name="Rewards"
-        component={RewardsScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="gift" size={20} color={color} />
           ),
         }}
-      />
+      >
+        {(props) => <RewardsScreen {...props} reloadWallet={reloadWallet} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
