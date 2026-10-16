@@ -1,13 +1,38 @@
-import { ProgressBarAndroidBase, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+
+// White and Green theme
+export const COLORS = {
+  bg: "#FAFAFA",
+  card: "#FFFFFF",
+  cardBorder: "#E8F5E9",
+  primary: "#2E7D32",       // Deep green
+  primaryLight: "#4CAF50",  // Medium green
+  primaryDark: "#1B5E20",   // Dark green
+  accent: "#66BB6A",        // Light green accent
+  accentLight: "#C8E6C9",   // Very light green
+  text: "#1A1A1A",
+  textSecondary: "#616161",
+  textMuted: "#9E9E9E",
+  white: "#FFFFFF",
+  surface: "#F1F8E9",       // Very light green surface
+  surfaceAlt: "#E8F5E9",
+  border: "#C8E6C9",
+  danger: "#D32F2F",
+  overlay: "rgba(0,0,0,0.5)",
+  tabBg: "#FFFFFF",
+  tabIndicator: "#2E7D32",
+  inputBg: "#F5F5F5",
+  shadow: "#000",
+};
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0B0507",
+    backgroundColor: COLORS.bg,
     padding: 10,
   },
   header: {
-    color: "#F5F5F5",
+    color: COLORS.text,
     fontSize: 28,
     fontWeight: "bold",
   },
@@ -19,76 +44,90 @@ export const styles = StyleSheet.create({
   tab: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#141012",
+    backgroundColor: COLORS.surfaceAlt,
     borderRadius: 8,
     alignItems: "center",
     marginHorizontal: 5,
   },
   activeTab: {
-    backgroundColor: "#8B0000",
+    backgroundColor: COLORS.primary,
   },
   tabText: {
-    color: "#F5F5F5",
+    color: COLORS.text,
     fontWeight: "bold",
   },
 
   card: {
-    backgroundColor: "#1C0F13",
+    backgroundColor: COLORS.white,
     padding: 15,
     borderRadius: 12,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
+    shadowColor: COLORS.shadow,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
   },
   taskName: {
-    color: "#F5F5F5",
+    color: COLORS.text,
     fontSize: 18,
+    fontWeight: "600",
   },
   subText: {
-    color: "#DADADA",
+    color: COLORS.textSecondary,
+    marginTop: 4,
   },
   points: {
-    color: "#C1121F",
+    color: COLORS.primary,
     fontWeight: "bold",
   },
 
   addButton: {
-    backgroundColor: "#C1121F",
+    backgroundColor: COLORS.primary,
     padding: 16,
     borderRadius: 50,
     alignItems: "center",
   },
   addText: {
-    color: "#F5F5F5",
-    fontSize: 16,
+    color: COLORS.white,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 
   modalBg: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.85)",
+    backgroundColor: COLORS.overlay,
     justifyContent: "center",
   },
   modal: {
-    backgroundColor: "#141012",
+    backgroundColor: COLORS.white,
     margin: 20,
     padding: 20,
     borderRadius: 15,
   },
 
   input: {
-    backgroundColor: "#1C0F13",
-    color: "#F5F5F5",
+    backgroundColor: COLORS.inputBg,
+    color: COLORS.text,
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
 
   dateBtn: {
-    backgroundColor: "#2A2A2A",
+    backgroundColor: COLORS.surfaceAlt,
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
   dateText: {
-    color: "#F5F5F5",
+    color: COLORS.text,
   },
 
   typeRow: {
@@ -98,26 +137,27 @@ export const styles = StyleSheet.create({
   typeBtn: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#2A2A2A",
+    backgroundColor: COLORS.surfaceAlt,
     borderRadius: 8,
     marginHorizontal: 5,
     alignItems: "center",
   },
   activeType: {
-    backgroundColor: "#6D0F1B",
+    backgroundColor: COLORS.primary,
   },
   typeText: {
-    color: "#F5F5F5",
+    color: COLORS.text,
+    fontWeight: "600",
   },
 
   saveBtn: {
-    backgroundColor: "#C1121F",
+    backgroundColor: COLORS.primary,
     padding: 14,
     borderRadius: 10,
     alignItems: "center",
   },
   saveText: {
-    color: "#F5F5F5",
+    color: COLORS.white,
     fontWeight: "bold",
   },
 
@@ -126,10 +166,10 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   closeText: {
-    color: "#A8A8A8",
+    color: COLORS.textMuted,
   },
   doneButton: {
-    backgroundColor: "#C1121F", // Primary Button
+    backgroundColor: COLORS.primary,
     paddingHorizontal: 18,
     paddingVertical: 8,
     borderRadius: 20,
@@ -139,13 +179,13 @@ export const styles = StyleSheet.create({
   },
 
   doneButtonText: {
-    color: "#F5F5F5", // Primary Text White
+    color: COLORS.white,
     fontWeight: "600",
     fontSize: 14,
   },
 
   progressHeading: {
-    color: "#F5F5F5",
+    color: COLORS.text,
     textAlign: "center",
     fontSize: 19,
     fontWeight: "600",
@@ -155,18 +195,22 @@ export const styles = StyleSheet.create({
 
   ProgressBar: {
     height: 8,
-    backgroundColor: "#1A1A1A",
+    backgroundColor: COLORS.accentLight,
     borderRadius: 4,
   },
-    fab: {
+  fab: {
     position: "absolute",
     right: 20,
     bottom: 20,
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "#C1121F",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
+    elevation: 6,
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
   },
 });

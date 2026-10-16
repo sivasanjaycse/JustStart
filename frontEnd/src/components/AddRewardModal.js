@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { rewardStyles as styles } from "../styles/rewardStyles";
+import { COLORS } from "../styles/theme";
 
 export default function AddRewardModal({ visible, onClose, onSave }) {
   const [name, setName] = useState("");
@@ -37,7 +38,7 @@ export default function AddRewardModal({ visible, onClose, onSave }) {
 
           <TextInput
             placeholder="Reward Name"
-            placeholderTextColor="#A8A8A8"
+            placeholderTextColor={COLORS.textMuted}
             value={name}
             onChangeText={setName}
             style={styles.input}
@@ -45,7 +46,7 @@ export default function AddRewardModal({ visible, onClose, onSave }) {
 
           <TextInput
             placeholder="Reward Points"
-            placeholderTextColor="#A8A8A8"
+            placeholderTextColor={COLORS.textMuted}
             keyboardType="numeric"
             value={points}
             onChangeText={setPoints}

@@ -2,12 +2,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Ionicons } from "@expo/vector-icons";
 
 import HomeScreen from "../screens/HomeScreen";
-import CompletedScreen from "../screens/CompletedScreen";
+import AnalyticsScreen from "../screens/AnalyticsScreen";
 import RewardsScreen from "../screens/RewardsScreen";
+import { COLORS } from "../styles/theme";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function BottomTabs({ reloadWallet }) {
+export default function BottomTabs({ reloadWallet, walletPoints }) {
   return (
     <Tab.Navigator
       tabBarPosition="bottom"
@@ -15,18 +16,27 @@ export default function BottomTabs({ reloadWallet }) {
         swipeEnabled: true,
         animationEnabled: true,
         tabBarStyle: {
-          backgroundColor: "#141012",
+          backgroundColor: COLORS.white,
+          borderTopWidth: 1,
+          borderTopColor: COLORS.border,
+          elevation: 4,
+          shadowColor: COLORS.shadow,
+          shadowOffset: { width: 0, height: -1 },
+          shadowOpacity: 0.05,
+          shadowRadius: 3,
         },
         tabBarIndicatorStyle: {
-          backgroundColor: "#C1121F",
+          backgroundColor: COLORS.primary,
           height: 3,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "600",
+          textTransform: "capitalize",
         },
-        tabBarActiveTintColor: "#C1121F",
-        tabBarInactiveTintColor: "#A8A8A8",
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: COLORS.textMuted,
+        tabBarPressColor: COLORS.surfaceAlt,
       }}
     >
       <Tab.Screen
@@ -41,11 +51,11 @@ export default function BottomTabs({ reloadWallet }) {
       </Tab.Screen>
 
       <Tab.Screen
-        name="Completed"
-        component={CompletedScreen}
+        name="Analytics"
+        component={AnalyticsScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="checkmark-done" size={20} color={color} />
+            <Ionicons name="stats-chart" size={20} color={color} />
           ),
         }}
       />
@@ -58,7 +68,13 @@ export default function BottomTabs({ reloadWallet }) {
           ),
         }}
       >
-        {(props) => <RewardsScreen {...props} reloadWallet={reloadWallet} />}
+        {(props) => (
+          <RewardsScreen
+            {...props}
+            reloadWallet={reloadWallet}
+            walletPoints={walletPoints}
+          />
+        )}
       </Tab.Screen>
     </Tab.Navigator>
   );

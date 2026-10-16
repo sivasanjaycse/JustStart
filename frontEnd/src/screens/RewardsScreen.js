@@ -3,9 +3,10 @@ import { View, FlatList, TouchableOpacity, Text } from "react-native";
 import RewardCard from "../components/RewardCard";
 import PurchaseModal from "../components/PurchaseModal";
 import AddRewardModal from "../components/AddRewardModal";
-import { getRewards, purchaseReward, addReward } from "../api/rewardsApi";
+import { getRewards, purchaseReward, addReward, getWallet } from "../store/DataStore";
 import { rewardStyles as styles } from "../styles/rewardStyles";
 import { styles as styles1 } from "../styles/theme";
+
 export default function RewardsScreen({ walletPoints, reloadWallet }) {
   const [rewards, setRewards] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -35,10 +36,7 @@ export default function RewardsScreen({ walletPoints, reloadWallet }) {
   const confirmPurchase = async () => {
     try {
       await purchaseReward(selected._id);
-
-      // 🔥 force wallet refetch AFTER backend commit
       await reloadWallet();
-
       setModal(false);
       setSelected(null);
     } catch (e) {

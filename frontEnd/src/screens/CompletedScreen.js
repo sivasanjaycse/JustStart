@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
-import { getCompletedByDate } from "../api/completedApi";
-import { styles } from "../styles/theme";
+import { getCompletedByDate } from "../store/DataStore";
+import { styles, COLORS } from "../styles/theme";
 
 export default function CompletedScreen() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -20,7 +20,9 @@ export default function CompletedScreen() {
   const loadCompleted = async (date) => {
     try {
       setLoading(true);
-      const formatted = date.toISOString().slice(0, 10); // YYYY-MM-DD
+      // Convert to IST date string
+      const ist = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
+      const formatted = ist.toISOString().slice(0, 10);
       const res = await getCompletedByDate(formatted);
       setData(res);
     } catch (e) {
@@ -37,6 +39,7 @@ export default function CompletedScreen() {
   useEffect(() => {
     loadCompleted(selectedDate);
   }, []);
+
   const onDateChange = (_, date) => {
     setShowPicker(false);
     if (date) setSelectedDate(date);
@@ -44,24 +47,24 @@ export default function CompletedScreen() {
 
   return (
     <View style={[styles.container, { padding: 16 }]}>
-      {/* 📅 Date Picker */}
+      {/* Date Picker */}
       <TouchableOpacity
         onPress={() => setShowPicker(true)}
         style={{
-          backgroundColor: "#141012",
+          backgroundColor: COLORS.white,
           padding: 12,
           borderRadius: 10,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           borderWidth: 1,
-          borderColor: "#6D0F1B",
+          borderColor: COLORS.border,
         }}
       >
-        <Text style={{ color: "#F5F5F5", fontSize: 15 }}>
+        <Text style={{ color: COLORS.text, fontSize: 15 }}>
           {selectedDate.toDateString()}
         </Text>
-        <Ionicons name="calendar" size={20} color="#C1121F" />
+        <Ionicons name="calendar" size={20} color={COLORS.primary} />
       </TouchableOpacity>
 
       {showPicker && (
@@ -75,28 +78,28 @@ export default function CompletedScreen() {
         />
       )}
 
-      {/* 🔢 Total Points */}
+      {/* Total Points */}
       <View style={{ marginVertical: 20 }}>
         <Text
           style={{
             textAlign: "center",
             fontSize: 22,
             fontWeight: "700",
-            color: "#C1121F",
+            color: COLORS.primary,
           }}
         >
           Total: {data?.totalPoints ?? 0} Points
         </Text>
       </View>
 
-      {/* 📋 Completed List */}
+      {/* Completed List */}
       {loading ? (
-        <ActivityIndicator color="#C1121F" size="large" />
+        <ActivityIndicator color={COLORS.primary} size="large" />
       ) : data?.tasks?.length === 0 ? (
         <Text
           style={{
             textAlign: "center",
-            color: "#A8A8A8",
+            color: COLORS.textMuted,
             marginTop: 40,
           }}
         >
@@ -110,18 +113,20 @@ export default function CompletedScreen() {
           renderItem={({ item }) => (
             <View
               style={{
-                backgroundColor: "#141012",
+                backgroundColor: COLORS.white,
                 padding: 14,
                 borderRadius: 12,
                 marginBottom: 10,
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
+                borderWidth: 1,
+                borderColor: COLORS.cardBorder,
               }}
             >
               <Text
                 style={{
-                  color: "#F5F5F5",
+                  color: COLORS.text,
                   fontSize: 15,
                   flex: 1,
                 }}
@@ -131,7 +136,7 @@ export default function CompletedScreen() {
 
               <Text
                 style={{
-                  color: "#C1121F",
+                  color: COLORS.primary,
                   fontWeight: "600",
                   marginLeft: 10,
                 }}

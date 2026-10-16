@@ -1,6 +1,6 @@
 //Used in Homescreen
 import { View, Text, TouchableOpacity } from "react-native";
-import { styles } from "../styles/theme";
+import { styles, COLORS } from "../styles/theme";
 
 export default function TaskTabs({ activeTab, onChange }) {
   return (
@@ -14,7 +14,10 @@ export default function TaskTabs({ activeTab, onChange }) {
           ]}
           onPress={() => onChange(type)}
         >
-          <Text style={styles.tabText}>{type}</Text>
+          <Text style={[
+            styles.tabText,
+            activeTab === type && { color: COLORS.white }
+          ]}>{type}</Text>
         </TouchableOpacity>
       ))}
     </View>

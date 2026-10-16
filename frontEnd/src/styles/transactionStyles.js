@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "./theme";
 
 export const transactionStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0B0507",
+    backgroundColor: COLORS.bg,
     padding: 16,
   },
 
@@ -12,28 +13,30 @@ export const transactionStyles = StyleSheet.create({
   },
 
   date: {
-    color: "#C1121F",
+    color: COLORS.primary,
     fontSize: 15,
     fontWeight: "600",
     marginBottom: 10,
   },
 
   item: {
-    backgroundColor: "#141012",
+    backgroundColor: COLORS.white,
     padding: 14,
     borderRadius: 10,
     marginBottom: 8,
     flexDirection: "row",
     justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: COLORS.cardBorder,
   },
 
   name: {
-    color: "#F5F5F5",
+    color: COLORS.text,
     fontSize: 14,
   },
 
   points: {
-    color: "#8B0000",
+    color: COLORS.danger,
     fontWeight: "600",
   },
 });

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import { getTransactions } from "../api/transactionsApi";
+import { getTransactions } from "../store/DataStore";
 import TransactionItem from "../components/TransactionItem";
 import { transactionStyles as styles } from "../styles/transactionStyles";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { COLORS } from "../styles/theme";
 
 export default function TransactionsScreen() {
   const [grouped, setGrouped] = useState({});
@@ -63,16 +64,16 @@ export default function TransactionsScreen() {
           width: 54,
           height: 54,
           borderRadius: 27,
-          backgroundColor: "#C1121F",
+          backgroundColor: COLORS.primary,
           justifyContent: "center",
           alignItems: "center",
-          elevation: 6, // Android shadow
-          shadowColor: "#C1121F", // iOS glow
+          elevation: 6,
+          shadowColor: COLORS.primary,
           shadowOpacity: 0.4,
           shadowRadius: 6,
         }}
       >
-        <Ionicons name="home" size={26} color="#F5F5F5" />
+        <Ionicons name="home" size={26} color={COLORS.white} />
       </TouchableOpacity>
     </View>
   );
