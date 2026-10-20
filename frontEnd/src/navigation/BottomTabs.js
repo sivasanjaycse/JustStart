@@ -19,31 +19,41 @@ export default function BottomTabs({ reloadWallet, walletPoints }) {
           backgroundColor: COLORS.white,
           borderTopWidth: 1,
           borderTopColor: COLORS.border,
-          elevation: 4,
+          elevation: 8,
           shadowColor: COLORS.shadow,
-          shadowOffset: { width: 0, height: -1 },
-          shadowOpacity: 0.05,
-          shadowRadius: 3,
+          shadowOffset: { width: 0, height: -3 },
+          shadowOpacity: 0.06,
+          shadowRadius: 8,
+          height: 62,
+          paddingBottom: 4,
+          paddingTop: 4,
         },
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.primary,
           height: 3,
+          borderRadius: 3,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "600",
-          textTransform: "capitalize",
+          fontSize: 11,
+          fontWeight: "700",
+          textTransform: "none",
+          letterSpacing: 0.1,
+          marginTop: -2,
         },
         tabBarActiveTintColor: COLORS.primary,
         tabBarInactiveTintColor: COLORS.textMuted,
-        tabBarPressColor: COLORS.surfaceAlt,
+        tabBarPressColor: COLORS.surface,
       }}
     >
       <Tab.Screen
         name="Home"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home" size={20} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={21}
+              color={color}
+            />
           ),
         }}
       >
@@ -54,8 +64,12 @@ export default function BottomTabs({ reloadWallet, walletPoints }) {
         name="Analytics"
         component={AnalyticsScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="stats-chart" size={20} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "stats-chart" : "stats-chart-outline"}
+              size={21}
+              color={color}
+            />
           ),
         }}
       />
@@ -63,8 +77,12 @@ export default function BottomTabs({ reloadWallet, walletPoints }) {
       <Tab.Screen
         name="Rewards"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="gift" size={20} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "gift" : "gift-outline"}
+              size={21}
+              color={color}
+            />
           ),
         }}
       >

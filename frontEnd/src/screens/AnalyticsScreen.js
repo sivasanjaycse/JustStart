@@ -16,7 +16,6 @@ import {
   getMonthlyStats,
   getStreakData,
   getCompletedByDate,
-  getISTDateStringExport,
   DAILY_GOAL,
 } from "../store/DataStore";
 import { COLORS } from "../styles/theme";
@@ -156,11 +155,11 @@ export default function AnalyticsScreen() {
   };
   const activeTierDays = getActiveTier();
 
-  // Negative penalty tiers as requested: -300, -200, -1000
+  // Negative penalty tiers: -300, -200, -1000
   const negTiers = [
-    { days: 3, penalty: "-300 pts", color: "#EF5350" },
-    { days: 5, penalty: "-200 pts", color: "#E53935" },
-    { days: 10, penalty: "-1000 pts", color: "#C62828" },
+    { days: 3, penalty: "-300 pts", color: "#EF4444" },
+    { days: 5, penalty: "-200 pts", color: "#DC2626" },
+    { days: 10, penalty: "-1000 pts", color: "#B91C1C" },
   ];
 
   const currentMonth = new Date().toLocaleDateString("en-IN", {
@@ -170,15 +169,15 @@ export default function AnalyticsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.bg }}>
-      {/* ── SUB-MENU SWITCH ── */}
+      {/* ── Modern Sub-Menu Switch ── */}
       <View
         style={{
           flexDirection: "row",
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.surfaceAlt,
           marginHorizontal: 16,
-          marginTop: 14,
-          marginBottom: 10,
-          borderRadius: 12,
+          marginTop: 12,
+          marginBottom: 12,
+          borderRadius: 14,
           padding: 4,
           borderWidth: 1,
           borderColor: COLORS.border,
@@ -187,21 +186,34 @@ export default function AnalyticsScreen() {
         <TouchableOpacity
           style={{
             flex: 1,
-            paddingVertical: 10,
-            borderRadius: 8,
-            backgroundColor:
-              activeSubTab === "Analytics" ? COLORS.primary : "transparent",
+            flexDirection: "row",
             alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            paddingVertical: 10,
+            borderRadius: 10,
+            backgroundColor:
+              activeSubTab === "Analytics" ? COLORS.white : "transparent",
+            shadowColor: activeSubTab === "Analytics" ? COLORS.shadow : "transparent",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: activeSubTab === "Analytics" ? 0.08 : 0,
+            shadowRadius: 3,
+            elevation: activeSubTab === "Analytics" ? 2 : 0,
           }}
           onPress={() => setActiveSubTab("Analytics")}
           activeOpacity={0.8}
         >
+          <Ionicons
+            name="stats-chart"
+            size={16}
+            color={activeSubTab === "Analytics" ? COLORS.primary : COLORS.textMuted}
+          />
           <Text
             style={{
               color:
-                activeSubTab === "Analytics" ? COLORS.white : COLORS.textSecondary,
-              fontWeight: "700",
-              fontSize: 14,
+                activeSubTab === "Analytics" ? COLORS.text : COLORS.textSecondary,
+              fontWeight: activeSubTab === "Analytics" ? "700" : "600",
+              fontSize: 13,
             }}
           >
             Analytics
@@ -211,21 +223,34 @@ export default function AnalyticsScreen() {
         <TouchableOpacity
           style={{
             flex: 1,
-            paddingVertical: 10,
-            borderRadius: 8,
-            backgroundColor:
-              activeSubTab === "Completed" ? COLORS.primary : "transparent",
+            flexDirection: "row",
             alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            paddingVertical: 10,
+            borderRadius: 10,
+            backgroundColor:
+              activeSubTab === "Completed" ? COLORS.white : "transparent",
+            shadowColor: activeSubTab === "Completed" ? COLORS.shadow : "transparent",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: activeSubTab === "Completed" ? 0.08 : 0,
+            shadowRadius: 3,
+            elevation: activeSubTab === "Completed" ? 2 : 0,
           }}
           onPress={() => setActiveSubTab("Completed")}
           activeOpacity={0.8}
         >
+          <Ionicons
+            name="checkmark-done-circle"
+            size={16}
+            color={activeSubTab === "Completed" ? COLORS.primary : COLORS.textMuted}
+          />
           <Text
             style={{
               color:
-                activeSubTab === "Completed" ? COLORS.white : COLORS.textSecondary,
-              fontWeight: "700",
-              fontSize: 14,
+                activeSubTab === "Completed" ? COLORS.text : COLORS.textSecondary,
+              fontWeight: activeSubTab === "Completed" ? "700" : "600",
+              fontSize: 13,
             }}
           >
             Completed
@@ -237,22 +262,22 @@ export default function AnalyticsScreen() {
       {activeSubTab === "Analytics" && (
         <ScrollView
           style={{ flex: 1 }}
-          contentContainerStyle={{ padding: 16, paddingTop: 4, paddingBottom: 100 }}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 100 }}
         >
           {/* ── 7-Day Points Graph ── */}
           <View
             style={{
               backgroundColor: COLORS.white,
-              borderRadius: 16,
-              padding: 16,
+              borderRadius: 20,
+              padding: 18,
               marginBottom: 16,
               borderWidth: 1,
               borderColor: COLORS.cardBorder,
               elevation: 2,
               shadowColor: COLORS.shadow,
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.05,
-              shadowRadius: 3,
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.04,
+              shadowRadius: 8,
             }}
           >
             <View
@@ -263,24 +288,51 @@ export default function AnalyticsScreen() {
                 marginBottom: 14,
               }}
             >
-              <Text
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 7 }}>
+                <View
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 8,
+                    backgroundColor: COLORS.surface,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Ionicons name="trending-up" size={16} color={COLORS.primary} />
+                </View>
+                <Text
+                  style={{
+                    color: COLORS.text,
+                    fontSize: 16,
+                    fontWeight: "800",
+                    letterSpacing: -0.2,
+                  }}
+                >
+                  Last 7 Days
+                </Text>
+              </View>
+
+              <View
                 style={{
-                  color: COLORS.text,
-                  fontSize: 16,
-                  fontWeight: "700",
+                  backgroundColor: COLORS.surface,
+                  paddingHorizontal: 9,
+                  paddingVertical: 3,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: COLORS.accentLight,
                 }}
               >
-                Last 7 Days
-              </Text>
-              <Text
-                style={{
-                  color: COLORS.primary,
-                  fontSize: 12,
-                  fontWeight: "600",
-                }}
-              >
-                Goal: {GOAL} pts
-              </Text>
+                <Text
+                  style={{
+                    color: COLORS.primaryDark,
+                    fontSize: 11,
+                    fontWeight: "700",
+                  }}
+                >
+                  Target: {GOAL} pts
+                </Text>
+              </View>
             </View>
 
             {last7Days.length > 0 ? (
@@ -315,23 +367,23 @@ export default function AnalyticsScreen() {
                       fontSize={8.5}
                       fill={isGoal ? COLORS.primary : COLORS.textMuted}
                       textAnchor="end"
-                      fontWeight={isGoal ? "700" : "400"}
+                      fontWeight={isGoal ? "700" : "500"}
                     >
                       {val}
                     </SvgText>
                   );
                 })}
 
-                {/* GOAL Tag Indicator on Right */}
+                {/* GOAL Tag Indicator on Right - Only shows "GOAL" as requested */}
                 <SvgText
                   x={CHART_WIDTH - CHART_PADDING.right}
                   y={goalY - 4}
                   fontSize={9}
                   fill={COLORS.primary}
                   textAnchor="end"
-                  fontWeight="700"
+                  fontWeight="800"
                 >
-                  GOAL ({GOAL})
+                  GOAL
                 </SvgText>
 
                 {/* Polyline line chart */}
@@ -368,7 +420,7 @@ export default function AnalyticsScreen() {
                     fontSize={9.5}
                     fill={COLORS.textSecondary}
                     textAnchor="middle"
-                    fontWeight="500"
+                    fontWeight="600"
                   >
                     {d.shortDate}
                   </SvgText>
@@ -386,7 +438,7 @@ export default function AnalyticsScreen() {
                       fontSize={8.5}
                       fill={isAbove ? COLORS.primaryDark : COLORS.text}
                       textAnchor="middle"
-                      fontWeight="600"
+                      fontWeight="700"
                     >
                       {isAbove ? `${d.points} (+${excess})` : `${d.points}`}
                     </SvgText>
@@ -399,6 +451,7 @@ export default function AnalyticsScreen() {
                   color: COLORS.textMuted,
                   textAlign: "center",
                   marginVertical: 20,
+                  fontSize: 13,
                 }}
               >
                 No data yet
@@ -406,32 +459,53 @@ export default function AnalyticsScreen() {
             )}
           </View>
 
-          {/* ── Monthly Stats ── */}
+          {/* ── Monthly Stats (e.g. October 2026) ── */}
           <View
             style={{
               backgroundColor: COLORS.white,
-              borderRadius: 16,
-              padding: 16,
+              borderRadius: 20,
+              padding: 18,
               marginBottom: 16,
               borderWidth: 1,
               borderColor: COLORS.cardBorder,
               elevation: 2,
               shadowColor: COLORS.shadow,
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.05,
-              shadowRadius: 3,
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.04,
+              shadowRadius: 8,
             }}
           >
-            <Text
+            <View
               style={{
-                color: COLORS.text,
-                fontSize: 16,
-                fontWeight: "700",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
                 marginBottom: 14,
               }}
             >
-              {currentMonth} Stats
-            </Text>
+              <View
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 8,
+                  backgroundColor: COLORS.surface,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="calendar" size={16} color={COLORS.primary} />
+              </View>
+              <Text
+                style={{
+                  color: COLORS.text,
+                  fontSize: 16,
+                  fontWeight: "800",
+                  letterSpacing: -0.2,
+                }}
+              >
+                {currentMonth} Stats
+              </Text>
+            </View>
 
             {monthlyStats && (
               <View>
@@ -439,74 +513,109 @@ export default function AnalyticsScreen() {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginBottom: 12,
+                    marginBottom: 10,
                   }}
                 >
                   <StatCard
+                    icon="checkmark-circle"
                     label="Goals Achieved"
                     value={monthlyStats.goalAchievedDays}
                     color={COLORS.primary}
+                    bgColor={COLORS.surface}
+                    borderColor={COLORS.accentLight}
                   />
                   <StatCard
+                    icon="close-circle"
                     label="Goals Missed"
                     value={monthlyStats.goalMissedDays}
                     color={COLORS.danger}
+                    bgColor="#FEF2F2"
+                    borderColor="#FECACA"
                   />
                 </View>
+
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                   <StatCard
+                    icon="trending-up"
                     label="Avg Daily Earnings"
                     value={monthlyStats.averageDailyEarnings}
                     color={COLORS.primaryLight}
                     suffix=" pts"
+                    bgColor={COLORS.surfaceAlt}
+                    borderColor={COLORS.border}
                   />
+                  {/* Changed label from "Total Earned (>750)" to "Total Earned" as requested */}
                   <StatCard
-                    label="Total Earned (>750)"
+                    icon="wallet"
+                    label="Total Earned"
                     value={monthlyStats.totalEarnings}
                     color={COLORS.primaryDark}
                     suffix=" pts"
+                    bgColor={COLORS.surface}
+                    borderColor={COLORS.accentLight}
                   />
                 </View>
               </View>
             )}
           </View>
 
-          {/* ── Streak Rewards & Multipliers ── */}
+          {/* ── Daily Streak Rewards & Multipliers ── */}
           <View
             style={{
               backgroundColor: COLORS.white,
-              borderRadius: 16,
-              padding: 16,
+              borderRadius: 20,
+              padding: 18,
               marginBottom: 16,
               borderWidth: 1,
               borderColor: COLORS.cardBorder,
               elevation: 2,
               shadowColor: COLORS.shadow,
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.05,
-              shadowRadius: 3,
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.04,
+              shadowRadius: 8,
             }}
           >
-            <Text
+            <View
               style={{
-                color: COLORS.text,
-                fontSize: 16,
-                fontWeight: "700",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 8,
                 marginBottom: 14,
               }}
             >
-              Daily Streak Rewards
-            </Text>
+              <View
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 8,
+                  backgroundColor: "#FEF3C7",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="flame" size={17} color="#D97706" />
+              </View>
+              <Text
+                style={{
+                  color: COLORS.text,
+                  fontSize: 16,
+                  fontWeight: "800",
+                  letterSpacing: -0.2,
+                }}
+              >
+                Daily Streak Rewards
+              </Text>
+            </View>
 
             {streakData && (
               <>
-                {/* Current Streak Card */}
+                {/* Current Streak Hero Display */}
                 <View
                   style={{
                     backgroundColor: COLORS.surface,
-                    borderRadius: 14,
-                    padding: 16,
-                    marginBottom: 14,
+                    borderRadius: 16,
+                    padding: 18,
+                    marginBottom: 16,
                     alignItems: "center",
                     borderWidth: activeTierDays ? 1.5 : 1,
                     borderColor: activeTierDays ? COLORS.primary : COLORS.border,
@@ -514,9 +623,10 @@ export default function AnalyticsScreen() {
                 >
                   <Text
                     style={{
-                      color: COLORS.primary,
-                      fontSize: 38,
+                      color: COLORS.primaryDark,
+                      fontSize: 42,
                       fontWeight: "800",
+                      letterSpacing: -1,
                     }}
                   >
                     {streakData.current}
@@ -525,33 +635,39 @@ export default function AnalyticsScreen() {
                     style={{
                       color: COLORS.textSecondary,
                       fontSize: 13,
-                      fontWeight: "500",
+                      fontWeight: "600",
                       marginTop: 2,
                     }}
                   >
-                    Day Streak
+                    Consecutive Days Active
                   </Text>
 
-                  {/* ACTIVE REWARD HIGHLIGHT */}
+                  {/* Active Reward Highlight */}
                   {activeTierDays && (
                     <View
                       style={{
                         backgroundColor: COLORS.primary,
                         borderRadius: 20,
-                        paddingHorizontal: 14,
-                        paddingVertical: 6,
-                        marginTop: 10,
+                        paddingHorizontal: 16,
+                        paddingVertical: 7,
+                        marginTop: 12,
                         flexDirection: "row",
                         alignItems: "center",
                         gap: 6,
+                        shadowColor: COLORS.primary,
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 4,
+                        elevation: 2,
                       }}
                     >
-                      <Ionicons name="sparkles" size={16} color={COLORS.white} />
+                      <Ionicons name="sparkles" size={15} color={COLORS.white} />
                       <Text
                         style={{
                           color: COLORS.white,
-                          fontWeight: "700",
+                          fontWeight: "800",
                           fontSize: 13,
+                          letterSpacing: 0.2,
                         }}
                       >
                         {streakData.multiplier}x Multiplier Active!
@@ -565,7 +681,7 @@ export default function AnalyticsScreen() {
                   style={{
                     color: COLORS.textSecondary,
                     fontSize: 12,
-                    fontWeight: "600",
+                    fontWeight: "700",
                     marginBottom: 8,
                     textTransform: "uppercase",
                     letterSpacing: 0.5,
@@ -584,21 +700,21 @@ export default function AnalyticsScreen() {
                         alignItems: "center",
                         justifyContent: "space-between",
                         paddingVertical: 10,
-                        paddingHorizontal: 12,
-                        borderRadius: 10,
+                        paddingHorizontal: 14,
+                        borderRadius: 12,
                         marginBottom: 6,
                         backgroundColor: isActive
-                          ? COLORS.surfaceAlt
-                          : COLORS.bg,
-                        borderWidth: isActive ? 2 : 1,
-                        borderColor: isActive ? COLORS.primary : COLORS.cardBorder,
+                          ? COLORS.surface
+                          : COLORS.surfaceAlt,
+                        borderWidth: 1.5,
+                        borderColor: isActive ? COLORS.primary : "transparent",
                       }}
                     >
                       <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                         <Text
                           style={{
                             color: isActive ? COLORS.primaryDark : COLORS.text,
-                            fontWeight: isActive ? "700" : "500",
+                            fontWeight: isActive ? "800" : "600",
                             fontSize: 14,
                           }}
                         >
@@ -610,14 +726,14 @@ export default function AnalyticsScreen() {
                               backgroundColor: COLORS.primary,
                               paddingHorizontal: 8,
                               paddingVertical: 2,
-                              borderRadius: 10,
+                              borderRadius: 8,
                             }}
                           >
                             <Text
                               style={{
                                 color: COLORS.white,
                                 fontSize: 10,
-                                fontWeight: "700",
+                                fontWeight: "800",
                                 textTransform: "uppercase",
                               }}
                             >
@@ -645,11 +761,11 @@ export default function AnalyticsScreen() {
                   <View
                     style={{
                       marginTop: 14,
-                      backgroundColor: "#FFEBEE",
+                      backgroundColor: "#FEF2F2",
                       padding: 12,
-                      borderRadius: 10,
+                      borderRadius: 12,
                       borderWidth: 1,
-                      borderColor: "#FFCDD2",
+                      borderColor: "#FECACA",
                     }}
                   >
                     <Text
@@ -664,13 +780,13 @@ export default function AnalyticsScreen() {
                   </View>
                 )}
 
-                {/* Penalty Tiers as requested: -300, -200, -1000 */}
+                {/* Penalty Tiers */}
                 <View style={{ marginTop: 16 }}>
                   <Text
                     style={{
                       color: COLORS.textSecondary,
                       fontSize: 12,
-                      fontWeight: "600",
+                      fontWeight: "700",
                       marginBottom: 8,
                       textTransform: "uppercase",
                       letterSpacing: 0.5,
@@ -683,14 +799,14 @@ export default function AnalyticsScreen() {
                     style={{
                       flexDirection: "row",
                       justifyContent: "space-between",
-                      paddingVertical: 8,
+                      paddingVertical: 9,
                       paddingHorizontal: 12,
                       marginBottom: 4,
-                      borderRadius: 8,
-                      backgroundColor: COLORS.bg,
+                      borderRadius: 10,
+                      backgroundColor: COLORS.surfaceAlt,
                     }}
                   >
-                    <Text style={{ color: COLORS.textSecondary, fontSize: 13 }}>
+                    <Text style={{ color: COLORS.textSecondary, fontSize: 13, fontWeight: "500" }}>
                       Daily Miss (&lt; {GOAL} pts)
                     </Text>
                     <Text style={{ color: COLORS.danger, fontWeight: "700", fontSize: 13 }}>
@@ -704,19 +820,19 @@ export default function AnalyticsScreen() {
                       style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        paddingVertical: 8,
+                        paddingVertical: 9,
                         paddingHorizontal: 12,
                         marginBottom: 4,
-                        borderRadius: 8,
+                        borderRadius: 10,
                         backgroundColor:
                           streakData.negativeStreak >= tier.days
-                            ? "#FFEBEE"
-                            : COLORS.bg,
+                            ? "#FEF2F2"
+                            : COLORS.surfaceAlt,
                         borderWidth: 1,
                         borderColor:
                           streakData.negativeStreak >= tier.days
-                            ? "#FFCDD2"
-                            : COLORS.cardBorder,
+                            ? "#FECACA"
+                            : "transparent",
                       }}
                     >
                       <Text
@@ -728,7 +844,7 @@ export default function AnalyticsScreen() {
                           fontWeight:
                             streakData.negativeStreak >= tier.days
                               ? "700"
-                              : "400",
+                              : "500",
                           fontSize: 13,
                         }}
                       >
@@ -737,7 +853,7 @@ export default function AnalyticsScreen() {
                       <Text
                         style={{
                           color: tier.color,
-                          fontWeight: "700",
+                          fontWeight: "800",
                           fontSize: 13,
                         }}
                       >
@@ -752,28 +868,48 @@ export default function AnalyticsScreen() {
         </ScrollView>
       )}
 
-      {/* ── SUBTAB 2: COMPLETED (MERGED) ── */}
+      {/* ── SUBTAB 2: COMPLETED TASKS ── */}
       {activeSubTab === "Completed" && (
         <View style={{ flex: 1, paddingHorizontal: 16 }}>
           {/* Date Picker Button */}
           <TouchableOpacity
             onPress={() => setShowDatePicker(true)}
+            activeOpacity={0.8}
             style={{
               backgroundColor: COLORS.white,
-              padding: 12,
-              borderRadius: 10,
+              padding: 14,
+              borderRadius: 14,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               borderWidth: 1,
               borderColor: COLORS.border,
               marginVertical: 10,
+              shadowColor: COLORS.shadow,
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.04,
+              shadowRadius: 4,
+              elevation: 1,
             }}
           >
-            <Text style={{ color: COLORS.text, fontSize: 15, fontWeight: "500" }}>
-              {selectedDate.toDateString()}
-            </Text>
-            <Ionicons name="calendar" size={20} color={COLORS.primary} />
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <View
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 8,
+                  backgroundColor: COLORS.surface,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="calendar" size={17} color={COLORS.primary} />
+              </View>
+              <Text style={{ color: COLORS.text, fontSize: 15, fontWeight: "700" }}>
+                {selectedDate.toDateString()}
+              </Text>
+            </View>
+            <Ionicons name="chevron-down" size={18} color={COLORS.textSecondary} />
           </TouchableOpacity>
 
           {showDatePicker && (
@@ -789,35 +925,68 @@ export default function AnalyticsScreen() {
           {/* Total Points & Earnings for selected day */}
           <View
             style={{
-              backgroundColor: COLORS.surface,
-              padding: 14,
-              borderRadius: 12,
+              backgroundColor: COLORS.white,
+              padding: 16,
+              borderRadius: 16,
               marginBottom: 14,
               borderWidth: 1,
-              borderColor: COLORS.border,
+              borderColor: COLORS.cardBorder,
               alignItems: "center",
+              shadowColor: COLORS.shadow,
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.04,
+              shadowRadius: 6,
+              elevation: 2,
             }}
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 12,
                 fontWeight: "700",
-                color: COLORS.primary,
+                color: COLORS.textSecondary,
+                textTransform: "uppercase",
+                letterSpacing: 0.5,
+                marginBottom: 4,
               }}
             >
-              Total Points: {completedData?.totalPoints ?? 0} pts
+              Day Score
+            </Text>
+            <Text
+              style={{
+                fontSize: 26,
+                fontWeight: "800",
+                color: COLORS.primaryDark,
+                letterSpacing: -0.5,
+              }}
+            >
+              {completedData?.totalPoints ?? 0} pts
             </Text>
             {completedData?.totalPoints > GOAL ? (
-              <Text
+              <View
                 style={{
-                  fontSize: 13,
-                  fontWeight: "600",
-                  color: COLORS.primaryDark,
-                  marginTop: 4,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 5,
+                  backgroundColor: COLORS.surface,
+                  paddingHorizontal: 10,
+                  paddingVertical: 4,
+                  borderRadius: 10,
+                  marginTop: 6,
+                  borderWidth: 1,
+                  borderColor: COLORS.accentLight,
                 }}
               >
-                Earnings: +{completedData.totalPoints - GOAL} pts (above {GOAL})
-              </Text>
+                <Ionicons name="sparkles" size={13} color={COLORS.primary} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "700",
+                    color: COLORS.primaryDark,
+                  }}
+                >
+                  Earnings: +{completedData.totalPoints - GOAL} pts (above {GOAL})
+                </Text>
+              </View>
             ) : (
               <Text
                 style={{
@@ -836,10 +1005,25 @@ export default function AnalyticsScreen() {
           {loadingCompleted ? (
             <ActivityIndicator color={COLORS.primary} size="large" style={{ marginTop: 40 }} />
           ) : completedData?.tasks?.length === 0 ? (
-            <View style={{ alignItems: "center", marginTop: 40 }}>
-              <Ionicons name="calendar-outline" size={48} color={COLORS.textMuted} />
-              <Text style={{ color: COLORS.textMuted, marginTop: 12, fontSize: 14 }}>
-                No tasks completed on this day
+            <View style={{ alignItems: "center", marginTop: 40, paddingHorizontal: 20 }}>
+              <View
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 28,
+                  backgroundColor: COLORS.surfaceAlt,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 12,
+                }}
+              >
+                <Ionicons name="calendar-outline" size={28} color={COLORS.textMuted} />
+              </View>
+              <Text style={{ color: COLORS.text, fontWeight: "700", fontSize: 16 }}>
+                No Tasks Completed
+              </Text>
+              <Text style={{ color: COLORS.textMuted, marginTop: 4, fontSize: 13, textAlign: "center" }}>
+                No task completions were recorded for this day.
               </Text>
             </View>
           ) : (
@@ -852,7 +1036,7 @@ export default function AnalyticsScreen() {
                   style={{
                     backgroundColor: COLORS.white,
                     padding: 14,
-                    borderRadius: 12,
+                    borderRadius: 14,
                     marginBottom: 10,
                     flexDirection: "row",
                     justifyContent: "space-between",
@@ -860,27 +1044,48 @@ export default function AnalyticsScreen() {
                     borderWidth: 1,
                     borderColor: COLORS.cardBorder,
                     elevation: 1,
+                    shadowColor: COLORS.shadow,
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.03,
+                    shadowRadius: 4,
                   }}
                 >
-                  <View style={{ flex: 1 }}>
-                    <Text style={{ color: COLORS.text, fontSize: 15, fontWeight: "500" }}>
+                  <View style={{ flex: 1, marginRight: 10 }}>
+                    <Text style={{ color: COLORS.text, fontSize: 15, fontWeight: "600" }}>
                       {item.name}
                     </Text>
-                    <Text style={{ color: COLORS.textMuted, fontSize: 12, marginTop: 2 }}>
-                      {item.taskType}
-                    </Text>
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 3 }}>
+                      <Ionicons
+                        name={item.taskType === "Routine" ? "repeat" : "flash"}
+                        size={11}
+                        color={COLORS.textMuted}
+                      />
+                      <Text style={{ color: COLORS.textMuted, fontSize: 12, fontWeight: "500" }}>
+                        {item.taskType}
+                      </Text>
+                    </View>
                   </View>
 
-                  <Text
+                  <View
                     style={{
-                      color: COLORS.primary,
-                      fontWeight: "700",
-                      fontSize: 15,
-                      marginLeft: 10,
+                      backgroundColor: COLORS.surface,
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: 10,
+                      borderWidth: 1,
+                      borderColor: COLORS.accentLight,
                     }}
                   >
-                    +{item.rewardPoints}
-                  </Text>
+                    <Text
+                      style={{
+                        color: COLORS.primaryDark,
+                        fontWeight: "800",
+                        fontSize: 13,
+                      }}
+                    >
+                      +{item.rewardPoints} pts
+                    </Text>
+                  </View>
                 </View>
               )}
             />
@@ -891,40 +1096,43 @@ export default function AnalyticsScreen() {
   );
 }
 
-// Small stat card helper component
-function StatCard({ label, value, color, suffix = "" }) {
+// Modern stat card helper component
+function StatCard({ icon, label, value, color, suffix = "", bgColor, borderColor }) {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.surface,
-        borderRadius: 12,
+        backgroundColor: bgColor || COLORS.surface,
+        borderRadius: 14,
         padding: 14,
         marginHorizontal: 4,
-        alignItems: "center",
         borderWidth: 1,
-        borderColor: COLORS.border,
+        borderColor: borderColor || COLORS.border,
       }}
     >
-      <Text
-        style={{
-          color: color,
-          fontSize: 22,
-          fontWeight: "800",
-        }}
-      >
-        {value}
-        {suffix && (
-          <Text style={{ fontSize: 12, fontWeight: "500" }}>{suffix}</Text>
-        )}
-      </Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+        <Text
+          style={{
+            color: color,
+            fontSize: 22,
+            fontWeight: "800",
+            letterSpacing: -0.5,
+          }}
+        >
+          {value}
+          {suffix && (
+            <Text style={{ fontSize: 12, fontWeight: "600" }}>{suffix}</Text>
+          )}
+        </Text>
+        {icon && <Ionicons name={icon} size={18} color={color} />}
+      </View>
       <Text
         style={{
           color: COLORS.textSecondary,
-          fontSize: 11,
-          marginTop: 4,
-          textAlign: "center",
+          fontSize: 12,
+          fontWeight: "600",
         }}
+        numberOfLines={1}
       >
         {label}
       </Text>

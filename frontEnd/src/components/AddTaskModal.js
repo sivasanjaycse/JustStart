@@ -1,4 +1,5 @@
 import { View, Text, Modal, TextInput, TouchableOpacity, Switch } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { styles, COLORS } from "../styles/theme";
 import { mergeDate, mergeTime } from "../utils/dateUtils";
@@ -26,53 +27,137 @@ export default function AddTaskModal({
   const isRoutine = taskType === "Routine";
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal visible={visible} animationType="fade" transparent>
       <View style={styles.modalBg}>
         <View style={styles.modal}>
-          {/* Task Name */}
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <View
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 10,
+                  backgroundColor: COLORS.surface,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="add-circle" size={20} color={COLORS.primary} />
+              </View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "800",
+                  color: COLORS.text,
+                  letterSpacing: -0.3,
+                }}
+              >
+                Create New Task
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={onClose}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+                backgroundColor: COLORS.surfaceAlt,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons name="close" size={16} color={COLORS.textSecondary} />
+            </TouchableOpacity>
+          </View>
+
+          {/* Task Type Switcher */}
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: COLORS.surfaceAlt,
+              borderRadius: 12,
+              padding: 4,
+              marginBottom: 14,
+              borderWidth: 1,
+              borderColor: COLORS.border,
+            }}
+          >
+            {["Routine", "One-Time"].map((type) => {
+              const active = taskType === type;
+              return (
+                <TouchableOpacity
+                  key={type}
+                  activeOpacity={0.8}
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
+                    paddingVertical: 9,
+                    borderRadius: 9,
+                    backgroundColor: active ? COLORS.white : "transparent",
+                    shadowColor: active ? COLORS.shadow : "transparent",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: active ? 0.08 : 0,
+                    shadowRadius: 3,
+                    elevation: active ? 2 : 0,
+                  }}
+                  onPress={() => {
+                    if (type === "Routine") {
+                      setState({
+                        taskType: "Routine",
+                        date: ROUTINE_END_DATE,
+                        hasDeadline: false,
+                        isHourly: false,
+                      });
+                    } else {
+                      setState({
+                        taskType: "One-Time",
+                        date: new Date(),
+                        hasDeadline: false,
+                        isHourly: false,
+                      });
+                    }
+                  }}
+                >
+                  <Ionicons
+                    name={type === "Routine" ? "repeat" : "flash"}
+                    size={14}
+                    color={active ? COLORS.primary : COLORS.textMuted}
+                  />
+                  <Text
+                    style={{
+                      color: active ? COLORS.primaryDark : COLORS.textSecondary,
+                      fontWeight: active ? "700" : "600",
+                      fontSize: 13,
+                    }}
+                  >
+                    {type}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {/* Task Name Input */}
           <TextInput
-            placeholder="Task Name"
+            placeholder="What do you want to accomplish?"
             placeholderTextColor={COLORS.textMuted}
             style={styles.input}
             value={name}
             onChangeText={(v) => setState({ name: v })}
           />
-
-          {/* Task Type */}
-          <View style={styles.typeRow}>
-            {["Routine", "One-Time"].map((type) => (
-              <TouchableOpacity
-                key={type}
-                style={[styles.typeBtn, taskType === type && styles.activeType]}
-                onPress={() => {
-                  if (type === "Routine") {
-                    setState({
-                      taskType: "Routine",
-                      date: ROUTINE_END_DATE,
-                      hasDeadline: false,
-                      isHourly: false,
-                    });
-                  } else {
-                    setState({
-                      taskType: "One-Time",
-                      date: new Date(),
-                      hasDeadline: false,
-                      isHourly: false,
-                    });
-                  }
-                }}
-              >
-                <Text
-                  style={[
-                    styles.typeText,
-                    taskType === type && { color: COLORS.white },
-                  ]}
-                >
-                  {type}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
 
           {/* Hourly Rate Toggle (One-Time only) */}
           {!isRoutine && (
@@ -81,13 +166,19 @@ export default function AddTaskModal({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginBottom: 12,
-                paddingHorizontal: 4,
+                backgroundColor: COLORS.surfaceAlt,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                borderRadius: 12,
+                marginBottom: 10,
               }}
             >
-              <Text style={{ color: COLORS.text, fontWeight: "500" }}>
-                Hourly Rate Task
-              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Ionicons name="time-outline" size={18} color={COLORS.primary} />
+                <Text style={{ color: COLORS.text, fontWeight: "600", fontSize: 13 }}>
+                  Hourly Rate Task
+                </Text>
+              </View>
               <Switch
                 value={isHourly || false}
                 onValueChange={(v) => setState({ isHourly: v })}
@@ -100,7 +191,7 @@ export default function AddTaskModal({
           {/* Hourly Rate Input */}
           {!isRoutine && isHourly && (
             <TextInput
-              placeholder="Points per Hour"
+              placeholder="Points per Hour (e.g. 100)"
               placeholderTextColor={COLORS.textMuted}
               keyboardType="numeric"
               style={styles.input}
@@ -116,13 +207,19 @@ export default function AddTaskModal({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginBottom: 12,
-                paddingHorizontal: 4,
+                backgroundColor: COLORS.surfaceAlt,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                borderRadius: 12,
+                marginBottom: 10,
               }}
             >
-              <Text style={{ color: COLORS.text, fontWeight: "500" }}>
-                Set Deadline
-              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+                <Ionicons name="calendar-outline" size={18} color={COLORS.primary} />
+                <Text style={{ color: COLORS.text, fontWeight: "600", fontSize: 13 }}>
+                  Set Target Deadline
+                </Text>
+              </View>
               <Switch
                 value={hasDeadline || false}
                 onValueChange={(v) => setState({ hasDeadline: v })}
@@ -132,27 +229,23 @@ export default function AddTaskModal({
             </View>
           )}
 
-          {/* Date & Time Pickers (only if hasDeadline for One-Time) */}
+          {/* Date & Time Pickers */}
           {!isRoutine && hasDeadline && (
-            <>
-              {/* Date */}
+            <View style={{ flexDirection: "row", gap: 8, marginBottom: 10 }}>
               <TouchableOpacity
-                style={styles.dateBtn}
+                style={[styles.dateBtn, { flex: 1, marginBottom: 0 }]}
                 onPress={() => setState({ showDatePicker: true })}
               >
-                <Text style={styles.dateText}>
-                  Date: {date.toLocaleDateString()}
-                </Text>
+                <Text style={styles.dateText}>{date.toLocaleDateString()}</Text>
+                <Ionicons name="calendar" size={16} color={COLORS.primary} />
               </TouchableOpacity>
 
-              {/* Time */}
               <TouchableOpacity
-                style={styles.dateBtn}
+                style={[styles.dateBtn, { flex: 1, marginBottom: 0 }]}
                 onPress={() => setState({ showTimePicker: true })}
               >
-                <Text style={styles.dateText}>
-                  Time: {date.toLocaleTimeString()}
-                </Text>
+                <Text style={styles.dateText}>{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+                <Ionicons name="time" size={16} color={COLORS.primary} />
               </TouchableOpacity>
 
               {showDatePicker && (
@@ -160,7 +253,6 @@ export default function AddTaskModal({
                   value={date}
                   mode="date"
                   display="calendar"
-                  themeVariant="light"
                   minimumDate={new Date()}
                   onChange={(e, selected) => {
                     setState({ showDatePicker: false });
@@ -175,7 +267,6 @@ export default function AddTaskModal({
                 <DateTimePicker
                   value={date}
                   mode="time"
-                  themeVariant="light"
                   onChange={(e, selected) => {
                     setState({ showTimePicker: false });
                     if (selected) {
@@ -184,13 +275,13 @@ export default function AddTaskModal({
                   }}
                 />
               )}
-            </>
+            </View>
           )}
 
-          {/* Reward Points (not shown for hourly tasks) */}
+          {/* Reward Points */}
           {!isHourly && (
             <TextInput
-              placeholder="Reward Points"
+              placeholder="Reward Points (e.g. 50)"
               placeholderTextColor={COLORS.textMuted}
               keyboardType="numeric"
               style={styles.input}
@@ -199,14 +290,13 @@ export default function AddTaskModal({
             />
           )}
 
-          {/* Save */}
-          <TouchableOpacity style={styles.saveBtn} onPress={onSave}>
-            <Text style={styles.saveText}>Save</Text>
-          </TouchableOpacity>
-
-          {/* Cancel */}
-          <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-            <Text style={styles.closeText}>Cancel</Text>
+          {/* Save Button */}
+          <TouchableOpacity
+            style={styles.saveBtn}
+            activeOpacity={0.85}
+            onPress={onSave}
+          >
+            <Text style={styles.saveText}>Save Task</Text>
           </TouchableOpacity>
         </View>
       </View>

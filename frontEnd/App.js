@@ -8,7 +8,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <StatusBar style="dark" />
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#FAFAFA" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F8FAFC" }}>
           <AppNavigator />
         </SafeAreaView>
       </NavigationContainer>
